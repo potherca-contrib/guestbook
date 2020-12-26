@@ -15,7 +15,7 @@ class ConferenceController extends AbstractController
      *
      * @return Response
      */
-    public function index(string $name): Response
+    public function index(string $name = ''): Response
     {
         $greet = '';
         if ($name) {
