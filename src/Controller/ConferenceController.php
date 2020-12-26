@@ -8,21 +8,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ConferenceController extends AbstractController
 {
-	/**
-	 * @Route("/hello/{name}", name="homepage")
-	 *
-	 * @param string $name
-	 *
-	 * @return Response
-	 */
-	public function index(string $name): Response
-	{
-		$greet = '';
-		if ($name) {
-			$greet = sprintf('<h1>Hello %s!</h1>', htmlspecialchars($name));
-		}
-		return new Response(
-			<<<EOF
+    /**
+     * @Route("/hello/{name}", name="homepage")
+     *
+     * @param string $name
+     *
+     * @return Response
+     */
+    public function index(string $name): Response
+    {
+        $greet = '';
+        if ($name) {
+            $greet = sprintf('<h1>Hello %s!</h1>', htmlspecialchars($name));
+        }
+        return new Response(
+            <<<EOF
 <html>
 	<body>
 		$greet
@@ -30,6 +30,6 @@ class ConferenceController extends AbstractController
 	</body>
 </html>
 EOF
-		);
-	}
+        );
+    }
 }
