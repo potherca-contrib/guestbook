@@ -27,3 +27,4 @@ class ConferenceEntityListener
         $conference->computeSlug($this->slugger);
     }
 }
+
