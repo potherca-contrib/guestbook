@@ -53,7 +53,6 @@ class SpamCheckerTest extends TestCase
         $context = [];
 
         $response = new MockResponse('', ['response_headers' => ['x-akismet-pro-tip: discard']]);
-
         yield 'blatant_spam' => [2, $response, $comment, $context];
 
         $response = new MockResponse('true');
