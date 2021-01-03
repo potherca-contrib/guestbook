@@ -11,6 +11,9 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SpamCheckerTest extends TestCase
 {
+    /**
+     * Test for spam score with invalid request
+     */
     public function testSpamScoreWithInvalidRequest()
     {
         $comment = new Comment();
@@ -35,7 +38,14 @@ class SpamCheckerTest extends TestCase
     }
 
     /**
+     * Test for spam score
+     *
      * @dataProvider getComments
+     *
+     * @param int $expectedScore
+     * @param ResponseInterface $response
+     * @param Comment $comment
+     * @param array $context
      */
     public function testSpamScore(int $expectedScore, ResponseInterface $response, Comment $comment, array $context)
     {
@@ -46,6 +56,11 @@ class SpamCheckerTest extends TestCase
         $this->assertSame($expectedScore, $score);
     }
 
+    /**
+     * Data provider
+     * 
+     * @return iterable
+     */
     public function getComments(): iterable
     {
         $comment = new Comment();
