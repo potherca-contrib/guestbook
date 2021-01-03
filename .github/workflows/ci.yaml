@@ -18,7 +18,7 @@ env:
 jobs:
     tests:
         name: Tests on PHP ${{ matrix.php }}
-        runs-on: ubuntu-local
+        runs-on: ubuntu-latestg
         strategy:
             fail-fast: false
             matrix:
