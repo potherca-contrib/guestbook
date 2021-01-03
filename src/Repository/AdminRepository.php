@@ -4,10 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Admin;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\{OptimisticLockException, ORMException};
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\{UserInterface, PasswordUpgraderInterface};
 
 /**
  * @method Admin|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,6 +24,12 @@ class AdminRepository extends ServiceEntityRepository implements PasswordUpgrade
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param UserInterface $user
+     * @param string $newEncodedPassword
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
@@ -35,33 +41,4 @@ class AdminRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->_em->persist($user);
         $this->_em->flush();
     }
-
-    // /**
-    //  * @return Admin[] Returns an array of Admin objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Admin
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
