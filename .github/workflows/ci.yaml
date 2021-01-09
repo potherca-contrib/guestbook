@@ -9,16 +9,10 @@ on:
     paths-ignore:
       - '**.md'
 
-env:
-  # The hostname used to communicate with the PostgreSQL service container
-  POSTGRES_HOST: postgres
-  # The default PostgreSQL port
-  POSTGRES_PORT: 5432
-
 jobs:
     tests:
         name: Tests on PHP ${{ matrix.php }}
-        runs-on: ubuntu-latestg
+        runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
@@ -29,7 +23,11 @@ jobs:
             image: postgres
             # Provide the password for postgres
             env:
+              POSTGRES_USER: postgres
               POSTGRES_PASSWORD: postgres
+              POSTGRES_DB: postgres
+            ports:
+              - 5432/tcp
             # Set health checks to wait until postgres has started
             options: >-
               --health-cmd pg_isready
@@ -45,12 +43,18 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                 php-version: ${{ matrix.php }}
+                extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, pgsql
 
             - name: Install Composer dependencies
               uses: "ramsey/composer-install@v1"
 
             - name: Run migrations
-              run: php bin/console doctrine:migrations:migrate
-
+              env:
+                POSTGRES_HOST: localhost
+                POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+              run: |
+                php bin/console doctrine:schema:update --force -q
+                php bin/console doctrine:migrations:migrate -q
+             
             - name: Run tests
               run: make tests
