@@ -1,6 +1,6 @@
 doctrine:
     dbal:
-      dbname:   postgres
+      dbname:   db
       driver:   pdo_pgsql
       host:     localhost
       password: postgres
