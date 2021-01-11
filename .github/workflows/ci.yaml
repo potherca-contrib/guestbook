@@ -27,7 +27,7 @@ jobs:
               POSTGRES_PASSWORD: postgres
               POSTGRES_DB: postgres
             ports:
-              - 5432/tcp
+              - 5432:5432
             # Set health checks to wait until postgres has started
             options: >-
               --health-cmd pg_isready
@@ -51,7 +51,7 @@ jobs:
             - name: Run migrations
               env:
                 POSTGRES_HOST: localhost
-                POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+                POSTGRES_PORT: 5432
               run: |
                 php bin/console doctrine:schema:update --force -q
                 php bin/console doctrine:migrations:migrate -q
