@@ -1,7 +1,8 @@
 doctrine:
     dbal:
       dbname:   postgres
-      host:     127.0.0.1
+      driver:   pdo_pgsql
+      host:     localhost
       password: postgres
       port:     5432
       user:     postgres
